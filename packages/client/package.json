@@ -18,6 +18,8 @@
     "url": "git+https://github.com/minddrop/video-sync.git"
   },
   "scripts": {
+    "lint": "eslint --ext .ts, ./lib",
+    "lint:fix": "eslint --ext .ts --fix ./lib",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
@@ -27,6 +29,7 @@
     "typescript": "^4.0.5"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
     "eslint": "^7.12.1",
     "lint-staged": "^10.5.1"
