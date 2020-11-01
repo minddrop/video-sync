@@ -18,7 +18,10 @@
     "url": "git+https://github.com/minddrop/video-sync.git"
   },
   "scripts": {
+    "dev": "ts-node ./lib/client.ts",
+    "dev:watch": "ts-node-dev --respawn ./lib/client.ts",
     "lint": "run-p lint:*",
+    "lint:typecheck": "tsc --noEmit",
     "lint:eslint": "eslint --ext .ts .",
     "lint:prettier": "prettier . --check",
     "fix": "run-s fix:eslint fix:prettier",
