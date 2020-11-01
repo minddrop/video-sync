@@ -22,5 +22,8 @@
   },
   "bugs": {
     "url": "https://github.com/minddrop/video-sync/issues"
+  },
+  "dependencies": {
+    "typescript": "^4.0.5"
   }
 }
