@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-module.exports = client;
+module.exports = client
 
 function client() {
-    // TODO
+  // TODO
 }
