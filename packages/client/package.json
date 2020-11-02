@@ -18,6 +18,7 @@
     "url": "git+https://github.com/minddrop/video-sync.git"
   },
   "scripts": {
+    "build": "tsc",
     "dev": "ts-node ./lib/client.ts",
     "dev:watch": "ts-node-dev --respawn ./lib/client.ts",
     "lint": "run-p lint:*",
