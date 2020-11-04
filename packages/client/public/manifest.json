@@ -1,0 +1,8 @@
+{
+  "name": "Video Sync",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "description": "Video sync manager",
+  "icons": {},
+  "browser_action": {}
+}
