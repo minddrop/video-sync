@@ -1,34 +1,104 @@
 import io from 'socket.io-client'
 import { ClientSocket, ServerSocket } from './type'
 
-export default function (): void {
-  const client1 = io('http://localhost:3000')
-  const client2 = io('http://localhost:3000')
-  const client3 = io('http://localhost:3000')
+/* 
+         | Room 1 | Room 2 | Room 3 |
+Clinet A | Create |        |        |
+Clinet B |  Join  |        |        |
+Clinet C |  Join  | Create |        |
+Clinet D |        | Join   |        |
+Clinet E |        |        | Create |
+*/
+export default async function (): Promise<void> {
+  /* 
+         | Room 1 | Room 2 | Room 3 |  Null  |
+Clinet A | Create |        |        |
+Clinet B |  Join  |        |        |
+Clinet C |  Join  | Create |        |
+Clinet D |        | Join   |        |
+Clinet E |        |        | Create |
+Clinet F |        |        |        |  Join  |
+*/
+  const client_A = io('http://localhost:3000')
+  const client_B = io('http://localhost:3000')
+  const client_C = io('http://localhost:3000')
+  const client_D = io('http://localhost:3000')
+  const client_E = io('http://localhost:3000')
+  const client_F = io('http://localhost:3000')
 
-  client1.emit('create_room', (room_id: any) => {
-    console.debug(`[client1] connect to room`)
-    client1.emit('connect_room', { room_id })
+  const {
+    room_id: room_1_id,
+  }: { room_id: string } = await new Promise((resolve) =>
+    client_A.emit('create_room', resolve)
+  )
+  const {
+    room_id: room_2_id,
+  }: { room_id: string } = await new Promise((resolve) =>
+    client_C.emit('create_room', resolve)
+  )
+  const {
+    room_id: room_3_id,
+  }: { room_id: string } = await new Promise((resolve) =>
+    client_E.emit('create_room', resolve)
+  )
 
-    console.debug(`[client2] connect to room`)
-    client2.emit('connect_room', { room_id })
+  client_A.emit('connect_room', { room_id: room_1_id })
+  client_B.emit('connect_room', { room_id: room_1_id })
+  client_C.emit('connect_room', { room_id: room_1_id })
+  client_C.emit('connect_room', { room_id: room_2_id })
+  client_D.emit('connect_room', { room_id: room_2_id })
+  client_E.emit('connect_room', { room_id: room_3_id })
+  client_F.emit('connect_room', { room_id: 'NULL-ROOM' }) // expected error
 
-    console.debug(`[client1] send change_status`)
-    client1.emit('change_status', {
-      room_id,
-      status: { speed: 2 },
-    })
+  /*
+  1: A -> Room 1 
+  2: C -> Room 1
+  3: C -> Room 2
+  4: D -> Room 2
+  5: E -> Room 3
+  6: E -> Room 1
+*/
+  client_A.emit('change_status', {
+    room_id: room_1_id,
+    status: { content: 'identifier1' },
+  })
+  client_C.emit('change_status', {
+    room_id: room_1_id,
+    status: { content: 'identifier2' },
+  })
+  client_C.emit('change_status', {
+    room_id: room_2_id,
+    status: { content: 'identifier3' },
+  })
+  client_D.emit('change_status', {
+    room_id: room_2_id,
+    status: { content: 'identifier4' },
+  })
+  client_E.emit('change_status', {
+    room_id: room_3_id,
+    status: { content: 'identifier5' },
+  })
+  client_E.emit('change_status', {
+    room_id: room_1_id,
+    status: { content: 'identifier6' },
   })
 
-  client3.emit('connect_room', { room_id: 'test2' })
-
-  client1.on('change_status', (data: any) => {
-    console.debug(`[client1] receive change_status`)
+  client_A.on('change_status', (data: any) => {
+    console.debug(`[client_A] receive change_status ${JSON.stringify(data)}`)
   })
-  client2.on('change_status', (data: any) => {
-    console.debug(`[client2] receive change_status`)
+  client_B.on('change_status', (data: any) => {
+    console.debug(`[client_B] receive change_status ${JSON.stringify(data)}`)
   })
-  client3.on('change_status', (data: any) => {
-    console.debug(`[client3] receive change_status`)
+  client_C.on('change_status', (data: any) => {
+    console.debug(`[client_C] receive change_status ${JSON.stringify(data)}`)
+  })
+  client_D.on('change_status', (data: any) => {
+    console.debug(`[client_D] receive change_status ${JSON.stringify(data)}`)
+  })
+  client_E.on('change_status', (data: any) => {
+    console.debug(`[client_E] receive change_status ${JSON.stringify(data)}`)
+  })
+  client_F.on('change_status', (data: any) => {
+    console.debug(`[client_F] receive change_status ${JSON.stringify(data)}`)
   })
 }

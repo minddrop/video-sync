@@ -13,14 +13,13 @@ const io = socketio(server)
 
 io.on('connect', (socket: ServerSocket) => {
   socket.on('create_room', (callback) => {
-    return callback({ room_id: 'test_room_id' })
+    return callback({ room_id: `ROOM-${Date.now()}` })
   })
   socket.on('connect_room', ({ room_id }) => {
     socket.join(room_id)
   })
 
   socket.on('change_status', ({ room_id, status }) => {
-    // console.log(`change`)
     io.to(room_id).emit('change_status', status)
   })
 })
