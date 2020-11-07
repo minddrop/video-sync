@@ -1,6 +1,8 @@
 import io from 'socket.io-client'
 import { ClientSocket, ServerSocket } from './type'
 
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 /* 
          | Room 1 | Room 2 | Room 3 |
 Clinet A | Create |        |        |
@@ -42,13 +44,13 @@ Clinet F |        |        |        |  Join  |
     client_E.emit('create_room', resolve)
   )
 
-  client_A.emit('connect_room', { room_id: room_1_id })
-  client_B.emit('connect_room', { room_id: room_1_id })
-  client_C.emit('connect_room', { room_id: room_1_id })
-  client_C.emit('connect_room', { room_id: room_2_id })
-  client_D.emit('connect_room', { room_id: room_2_id })
-  client_E.emit('connect_room', { room_id: room_3_id })
-  client_F.emit('connect_room', { room_id: 'NULL-ROOM' }) // expected error
+  client_A.emit('join_room', { room_id: room_1_id })
+  client_B.emit('join_room', { room_id: room_1_id })
+  client_C.emit('join_room', { room_id: room_1_id })
+  client_C.emit('join_room', { room_id: room_2_id })
+  client_D.emit('join_room', { room_id: room_2_id })
+  client_E.emit('join_room', { room_id: room_3_id })
+  client_F.emit('join_room', { room_id: 'NULL-ROOM' }) // expected error
 
   /*
   1: A -> Room 1 
@@ -58,47 +60,62 @@ Clinet F |        |        |        |  Join  |
   5: E -> Room 3
   6: E -> Room 1
 */
-  client_A.emit('change_status', {
+  client_A.emit('update_video_status', {
     room_id: room_1_id,
     status: { content: 'identifier1' },
   })
-  client_C.emit('change_status', {
+  client_C.emit('update_video_status', {
     room_id: room_1_id,
     status: { content: 'identifier2' },
   })
-  client_C.emit('change_status', {
+  client_C.emit('update_video_status', {
     room_id: room_2_id,
     status: { content: 'identifier3' },
   })
-  client_D.emit('change_status', {
+  client_D.emit('update_video_status', {
     room_id: room_2_id,
     status: { content: 'identifier4' },
   })
-  client_E.emit('change_status', {
+  client_E.emit('update_video_status', {
     room_id: room_3_id,
     status: { content: 'identifier5' },
   })
-  client_E.emit('change_status', {
+  client_E.emit('update_video_status', {
     room_id: room_1_id,
     status: { content: 'identifier6' },
   })
 
-  client_A.on('change_status', (data: any) => {
-    console.debug(`[client_A] receive change_status ${JSON.stringify(data)}`)
+  client_A.on('update_video_status', (data: any) => {
+    console.debug(
+      `[client_A] receive update_video_status ${JSON.stringify(data)}`
+    )
   })
-  client_B.on('change_status', (data: any) => {
-    console.debug(`[client_B] receive change_status ${JSON.stringify(data)}`)
+  client_B.on('update_video_status', (data: any) => {
+    console.debug(
+      `[client_B] receive update_video_status ${JSON.stringify(data)}`
+    )
   })
-  client_C.on('change_status', (data: any) => {
-    console.debug(`[client_C] receive change_status ${JSON.stringify(data)}`)
+  client_C.on('update_video_status', (data: any) => {
+    console.debug(
+      `[client_C] receive update_video_status ${JSON.stringify(data)}`
+    )
   })
-  client_D.on('change_status', (data: any) => {
-    console.debug(`[client_D] receive change_status ${JSON.stringify(data)}`)
+  client_D.on('update_video_status', (data: any) => {
+    console.debug(
+      `[client_D] receive update_video_status ${JSON.stringify(data)}`
+    )
   })
-  client_E.on('change_status', (data: any) => {
-    console.debug(`[client_E] receive change_status ${JSON.stringify(data)}`)
+  client_E.on('update_video_status', (data: any) => {
+    console.debug(
+      `[client_E] receive update_video_status ${JSON.stringify(data)}`
+    )
   })
-  client_F.on('change_status', (data: any) => {
-    console.debug(`[client_F] receive change_status ${JSON.stringify(data)}`)
+  client_F.on('update_video_status', (data: any) => {
+    console.debug(
+      `[client_F] receive update_video_status ${JSON.stringify(data)}`
+    )
   })
+
+  await wait(2000)
+  client_A.close()
 }
