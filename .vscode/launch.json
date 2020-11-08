@@ -8,19 +8,19 @@
       "type": "node",
       "request": "launch",
       "name": "Launch: Client",
-      "program": "${workspaceFolder}/packages/client/lib/client.ts",
+      "program": "${workspaceFolder}/packages/client/src/client.ts",
 
-      "preLaunchTask": "lerna: build",
+      "preLaunchTask": "lerna: build client",
       "outFiles": ["${workspaceFolder}/packages/client/**/*.js"]
     },
     {
       "type": "node",
       "request": "launch",
       "name": "Launch: Server",
-      "program": "${workspaceFolder}/packages/server/lib/server.ts",
+      "program": "${workspaceFolder}/packages/server/src/server.ts",
 
-      "preLaunchTask": "lerna: build",
-      "outFiles": ["${workspaceFolder}/packages/server/**/*.js"]
+      "preLaunchTask": "lerna: build server",
+      "outFiles": ["${workspaceFolder}/packages/server/build/*.js"]
     }
   ]
 }

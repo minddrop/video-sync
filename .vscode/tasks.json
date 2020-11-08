@@ -3,8 +3,14 @@
   "tasks": [
     {
       "type": "shell",
-      "command": ["npx", "lerna", "run", "build"],
-      "label": "lerna: build",
+      "command": ["npx", "lerna", "run", "build", "--scope", "client"],
+      "label": "lerna: build client",
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "command": ["npx", "lerna", "run", "build", "--scope", "server"],
+      "label": "lerna: build server",
       "problemMatcher": []
     }
   ]
