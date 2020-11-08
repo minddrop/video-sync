@@ -5,13 +5,13 @@
   "author": "ilim <ilim0t14@gmail.com>",
   "homepage": "https://github.com/minddrop/video-sync#readme",
   "license": "ISC",
-  "main": "lib/client.js",
+  "main": "src/client.js",
   "directories": {
-    "lib": "lib",
+    "src": "src",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "src"
   ],
   "repository": {
     "type": "git",
@@ -19,8 +19,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node ./lib/client.ts",
-    "dev:watch": "ts-node-dev --respawn ./lib/client.ts",
+    "dev": "ts-node ./src/client.ts",
+    "dev:watch": "ts-node-dev --respawn ./src/client.ts",
     "lint": "run-p lint:*",
     "lint:typecheck": "tsc --noEmit",
     "lint:eslint": "eslint --ext .ts .",
@@ -34,6 +34,8 @@
     "url": "https://github.com/minddrop/video-sync/issues"
   },
   "dependencies": {
+    "google-protobuf": "^3.14.0-rc.1",
+    "grpc-web": "^1.2.1",
     "typescript": "^4.0.5"
   },
   "devDependencies": {

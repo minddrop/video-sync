@@ -118,3 +118,4 @@ dist
 build/
 
 packages/server/src/protos/
+packages/client/src/protos/
