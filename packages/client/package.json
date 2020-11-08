@@ -46,6 +46,6 @@
     "prettier": "^2.1.2"
   },
   "lint-staged": {
-    "*.ts": "npm fix:eslint"
+    "*.ts": "eslint --fix"
   }
 }

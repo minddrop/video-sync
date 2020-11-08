@@ -47,6 +47,6 @@
     "ts-node-dev": "^1.0.0"
   },
   "lint-staged": {
-    "*.ts": "npm run fix:eslint"
+    "*.ts": "eslint --fix"
   }
 }
