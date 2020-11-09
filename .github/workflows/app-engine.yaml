@@ -19,8 +19,22 @@ jobs:
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      # Runs a single command using the runners shell
+      - name: Install lerna
+        run: npm install -g lerna && lerna bootstrap --scope server
+
+      # Runs a set of commands using the runners shell
+      - name: Build
+        run: npx lerna run build --scope server
+
       - name: Deploy to App Engine
         run: |
+          cd packages/server && \
           gcloud app deploy \
             --promote \
             --stop-previous-version \
