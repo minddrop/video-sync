@@ -65,5 +65,5 @@ io.on('connect', (socket: ServerSocket<socketio.Socket>) => {
 
 server.listen(port, () => {
   console.log('listening on *:' + port)
-  client()
+  // client()
 })
